@@ -233,9 +233,24 @@ function drawHeart(x,y,size){
   g.addColorStop(0,'rgba(255,190,220,.95)'); g.addColorStop(1,'rgba(255,90,160,0)');
   ctx2.fillStyle=g; ctx2.fill(); ctx2.restore();
 }
-let lastTap=0;
-addEventListener('click', (e)=>{ const now=performance.now(); if(now-lastTap<320) spawnHearts(e.clientX,e.clientY,20); lastTap=now; }, {passive:true});
-addEventListener('touchend', (e)=>{ const now=performance.now(); const t=e.changedTouches&&e.changedTouches[0]; if(now-lastTap<320&&t) spawnHearts(t.clientX,t.clientY,20); lastTap=now; }, {passive:true});
+let lastTap = 0;
+
+// Activa música al hacer clic (PC)
+addEventListener('click', (e) => {
+  audio.play().catch(() => {}); // Inicia la música de Zoé
+  const now = performance.now();
+  if (now - lastTap < 320) spawnHearts(e.clientX, e.clientY, 20);
+  lastTap = now;
+}, { passive: true });
+
+// Activa música al tocar la pantalla (Celular)
+addEventListener('touchend', (e) => {
+  audio.play().catch(() => {}); // Inicia la música de Zoé
+  const now = performance.now();
+  const t = e.changedTouches && e.changedTouches[0];
+  if (now - lastTap < 320 && t) spawnHearts(t.clientX, t.clientY, 20);
+  lastTap = now;
+}, { passive: true });
 
 function loopFx(){
   ctx2.clearRect(0,0,fx.width,fx.height);
